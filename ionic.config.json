@@ -1,0 +1,7 @@
+{
+  "name": "motoWork",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

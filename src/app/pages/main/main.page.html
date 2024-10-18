@@ -1,0 +1,53 @@
+<app-header [showMenu]="true" title="MotoWork"></app-header>
+
+<ion-menu contentId="main-content" menuId="first">
+  <ion-header class="ion-no-border">
+    <ion-toolbar class="new-background-color">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-content">
+    <br>
+    <img src="../../../assets/img/perfil.png" href="/main/profile" alt="Perfil" class="img">
+    
+    <div class="profile-info">
+      <ion-label>
+        <h2>Javier Bastias</h2>
+        <p>jb</p>
+      </ion-label>
+    </div>
+
+    <ion-menu-toggle autoHide="false" *ngFor="let p of pages2" class="menu">
+      <ion-item 
+        [ngClass]="{'active': currentPath === p.url}" 
+        [routerLink]="p.url" 
+        routerDirection="root" detail lines="none">
+        <ion-icon slot="start" [name]="p.icon"></ion-icon>
+        <ion-label>{{ p.title }}</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="main-content"></ion-router-outlet>
+
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="dashboard" href="/main/dashboard">
+      <img src="../../assets/img/dashboard.png" alt="Dashboard">
+      <ion-label>Dashboard</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="documento" href="/main/documento">
+      <img src="../../assets/img/documentos.png" alt="Documentos">
+      <ion-label>Documentos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="turno" href="/main/turno">
+      <img src="../../assets/img/turnos.png" alt="Turno">
+      <ion-label>Turno</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

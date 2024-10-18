@@ -1,0 +1,86 @@
+ion-tab-bar {
+    padding: 10px 0;  /* Añade espacio alrededor de los íconos */
+    background-color: #A7A7A7;
+}
+.ion-content {
+    --background: #EFEFEF;  /* Cambia el color de fondo de la página */
+}
+.menu {
+    --background: #EFEFEF;
+}
+
+ion-tabs {
+    --background-color: #1900FF;  /* Cambia el color de fondo de la barra de pestañas */
+}
+
+ion-tab-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;  /* Color por defecto del texto */
+    transition: color 0.3s ease;  /* Animación suave para el cambio de color */
+    background-color: #A7A7A7;
+}
+
+ion-tab-button img {
+    width: 30px;   /* Ajusta el tamaño de los íconos */
+    height: 30px;
+    object-fit: contain;  /* Asegura que los íconos mantengan sus proporciones */
+}
+
+ion-label {
+    font-size: 12px; /* Ajusta el tamaño del texto */
+}
+
+/* Cuando la pestaña está seleccionada */
+ion-tab-button.tab-selected {
+    color: #FFD700;  /* Cambia el color del texto cuando se selecciona, por ejemplo dorado */
+}
+
+ion-tab-button.tab-selected img {
+    filter: brightness(1.5);  /* Ajusta el brillo del icono cuando la pestaña está seleccionada */
+}
+
+ion-item {
+    --background: transparent; /* Remueve el fondo */
+    --border-color: transparent; /* Elimina bordes */
+    color: #000;  /* Texto en color negro */
+  }
+  
+  .menu ion-item.active {
+    background-color: #a6c4ff; /* Fondo claro para ítems activos */
+    border-radius: 8px; /* Bordes redondeados para un diseño más limpio */
+  }
+  
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Centra horizontalmente */
+    justify-content: center;  /* Centra verticalmente */
+    text-align: center;
+    margin-bottom: 10px;  /* Espacio inferior */
+  }
+  
+  .profile-info ion-label h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .profile-info ion-label p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;  /* Hace la imagen circular */
+    display: block;
+    margin: 0 auto 10px;  /* Centra la imagen */
+  }
+  
+  

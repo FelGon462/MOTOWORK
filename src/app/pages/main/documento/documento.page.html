@@ -1,0 +1,44 @@
+<app-header [showMenu]="true" title="MotoWork"></app-header>
+
+<ion-content>
+    <h3 class="titulo">Mis Documentos</h3>
+    <ion-list class="background">
+        <ion-item-sliding class="product-item">
+            <ion-item>
+                <ion-avatar slot="start">
+                    <img src="../../../../assets/img/pdf.png"/>
+                </ion-avatar>
+                <ion-label>
+                    <div class="data">Licencia Conducir</div>
+                    <div>
+                        <strong class="data">Fecha vencimiento: 12/09/2025</strong>
+                    </div>
+                </ion-label>
+                <ion-buttons>
+                    <ion-tab-button (click)="descargar()">
+                        <ion-icon name="download"></ion-icon>
+                        <ion-label>Descargar</ion-label>
+                    </ion-tab-button>
+                </ion-buttons>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option color="success" (click)="update()">
+                    <ion-icon class="option-btn" name="create-outline"></ion-icon>
+                </ion-item-option>
+
+                <ion-item-option color="danger" (click)="delete()">
+                    <ion-icon class="option-btn" name="trash-outline"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+
+        </ion-item-sliding>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+        <ion-fab-button (click)="agregar()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+</ion-content>

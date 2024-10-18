@@ -1,0 +1,19 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="new-background-color">
+    <ion-buttons slot="start" *ngIf="showMenu">
+      <ion-back-button *ngIf="backButton" [defaultHref]="backButton">
+
+      </ion-back-button>
+      <ion-menu-button (click)="toggleMenu()">
+        <img class="img" src="../../../../assets/img/perfil.png" alt="Perfil">
+      </ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <img class="img2" src="../../../../assets/img/notificacion.png" alt="Notificación">
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
