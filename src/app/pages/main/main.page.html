@@ -9,12 +9,15 @@
 
   <ion-content class="ion-content">
     <br>
-    <img src="../../../assets/img/perfil.png" href="/main/profile" alt="Perfil" class="img">
+    <ion-avatar>
+      <img *ngIf="user().img" [src]="user().img" alt="">
+      <ion-icon style="color:black" *ngIf="!user().img" class="empty-icon" name="person-circle-outline"></ion-icon>
+    </ion-avatar>  
     
     <div class="profile-info">
       <ion-label>
-        <h2>Javier Bastias</h2>
-        <p>jb</p>
+        <h2>{{ user().name }}</h2>
+        <p>{{ user().rol }}</p>
       </ion-label>
     </div>
 
@@ -28,6 +31,16 @@
       </ion-item>
     </ion-menu-toggle>
   </ion-content>
+
+
+  <ion-footer class="ion-no-border safe-p-bottom">
+    <ion-toolbar>
+      <ion-item (click)="signOut()" lines="none">
+        <ion-icon style="color:white" slot="start" name="log-out-outline"></ion-icon>
+        <ion-label style="color:white">Cerrar Sesión</ion-label>
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer>
 </ion-menu>
 
 <ion-router-outlet id="main-content"></ion-router-outlet>

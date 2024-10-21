@@ -1,0 +1,69 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="new-background-color">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon style="color: red;" name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> {{title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+ 
+    <br>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form" (keypress.enter)="submit()">
+
+      <app-logo></app-logo>
+    
+      <app-login-input
+        autocomplete="descripcion"
+        type="text"
+        label="Descripción"
+        icon="document-text-outline"
+        [control]="form.controls.descripcion">
+      </app-login-input>
+    
+      <div class="validators" *ngIf="form.controls.descripcion.errors && form.controls.descripcion.touched">
+        <div *ngIf="form.controls.descripcion.errors?.['required']">La descripción del documento es requerida</div>
+        <div *ngIf="form.controls.descripcion.errors?.['minLength']">Debe tener al menos 6 caracteres</div>
+      </div>
+    
+      <app-login-input
+        type="text"
+        label="Tipo de Documento"
+        icon="document-text-outline"
+        [control]="form.controls.tipo">
+      </app-login-input>
+    
+      <div class="validators" *ngIf="form.controls.tipo.errors && form.controls.tipo.touched">
+        <div *ngIf="form.controls.tipo.errors?.['required']">El tipo de documento es requerido</div>
+      </div>
+    
+      <app-login-input
+        type="date"
+        label="Fecha Vencimiento"
+        icon="calendar-outline"
+        [control]="form.controls.fecha">
+      </app-login-input>
+    
+      <div class="validators" *ngIf="form.controls.fecha.errors && form.controls.fecha.touched">
+        <div *ngIf="form.controls.fecha.errors?.['required']">La fecha es requerida</div>
+      </div>
+    
+      <!-- Input para subir archivo -->
+      <app-login-input
+        type="file"
+        label="Subir Archivo"
+        (change)="onFileSelected($event)"
+        [control]="form.controls.archivo">
+      </app-login-input>
+   
+      <ion-button class="submit" type="submit" mode="ios" fill="solid" color="primary" size="default" [disabled]="form.invalid">
+        Agregar Documento
+        <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      </ion-button>
+    
+    </form>
+
+</ion-content>

@@ -7,6 +7,9 @@
       <ion-menu-button (click)="toggleMenu()">
         <img class="img" src="../../../../assets/img/perfil.png" alt="Perfil">
       </ion-menu-button>
+      <ion-button *ngIf="isModal" (click)="dismissModal()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
     <ion-buttons slot="end">

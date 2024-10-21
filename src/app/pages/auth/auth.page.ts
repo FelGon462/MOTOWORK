@@ -32,15 +32,7 @@ export class AuthPage implements OnInit {
 
       this.firebaseService.signIn(this.form.value as User)
         .then(resp => {
-          console.log('_______',resp);
-          this.utilsService.routerlink('/main/dashboard');
-          this.utilsService.presentToast({
-            message: 'Bienvenido',
-            duration: 2000,
-            color: 'success',
-            position: 'bottom',
-            icon: 'person-circle-outline'
-          });
+          this.getUserInfo(resp.user.uid);
         }).catch(error => {
           console.error('Error', error);
           this.utilsService.presentToast({
@@ -55,6 +47,43 @@ export class AuthPage implements OnInit {
         })
     }
     
+  }
+
+  async getUserInfo(uid: string){
+    if(this.form.valid){
+      const loading = await this.utilsService.loading();
+
+      await loading.present();
+
+      let path= `users/${uid}`;
+      
+      this.firebaseService.getDocument(path)
+        .then((user: User) => {
+          this.utilsService.saveLocalStorage('user', user);
+          this.utilsService.routerlink('/main/dashboard');
+          this.form.reset();
+
+          this.utilsService.presentToast({
+            message: `Bienvenido ${user.name}`,
+            duration: 2000,
+            color: 'success',
+            position: 'bottom',
+            icon: 'person-circle-outline'
+          });
+
+        }).catch(error => {
+          console.error('Error', error);
+          this.utilsService.presentToast({
+            message: 'Error al iniciar sesión',
+            duration: 2000,
+            color: 'danger',
+            position: 'bottom',
+            icon: 'alert-circle-outline'
+          });
+        }).finally(() => {
+          loading.dismiss();
+        })
+    }
   }
 
 }

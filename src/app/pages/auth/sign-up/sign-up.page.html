@@ -11,7 +11,45 @@
     <br>
     <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form"  (keypress.enter)="submit()">
 
-      <app-logo></app-logo>
+      <!--foto persona y boton para camara e agregar imagen-->
+      <!--si existe imagen muestra esto-->
+      <ion-avatar *ngIf="form.value.img" >
+        <img [src]="form.value.img" />
+      </ion-avatar>
+
+      <!--si no existe imagen muestra esto el simbolo ! es para negar. En este caso seria como decir si no existe imagen-->
+      <ion-icon class="img-icon" *ngIf="!form.value.img" name="image-outline"></ion-icon>
+
+      <br>
+
+      <ion-button (click)="takeImage()" mode="ios" size="small" shape="round">
+        Tome/Seleccione una foto
+      </ion-button>
+
+      <app-login-input
+      autocomplete="name"
+      type="text"
+      label="Nombre"
+      icon="person-outline"
+      [control]="form.controls.name"
+      ></app-login-input>
+
+      <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+        <div *ngIf="form.controls.name.errors?.['required']">El Nombre es Requerido</div>
+        <div *ngIf="form.controls.name.errors?.['minlength']">El Nombre debe tener al menos 6 caracteres</div>
+      </div>
+
+      <app-login-input
+      autocomplete="Rol"
+      type="text"
+      label="Cargo"
+      icon="person-outline"
+      [control]="form.controls.rol"
+      ></app-login-input>
+
+      <div class="validators" *ngIf="form.controls.rol.errors && form.controls.rol.touched">
+        <div *ngIf="form.controls.rol.errors?.['required']">El Nombre es Requerido</div>
+      </div>
 
       <app-login-input
       autocomplete="email"

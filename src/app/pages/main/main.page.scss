@@ -82,5 +82,17 @@ ion-item {
     display: block;
     margin: 0 auto 10px;  /* Centra la imagen */
   }
+
+  ion-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.photo-btn {
+    position: relative;
+    bottom: 25px;
+    margin-top: 35px;
+}
   
   

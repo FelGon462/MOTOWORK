@@ -1,3 +1,32 @@
-<ion-content>
-
-</ion-content>
+<ion-content class="custom-content">
+    <ion-grid class="centered-grid">
+      <ion-row>
+        <ion-col class="text-center">
+          <p class="date-text">{{ currentDate }}</p>
+          <p class="timer-text">
+            {{ _minutos }}:{{ _segundos }}
+          </p>
+  
+          <!-- Botón de Entrada -->
+          <ion-button 
+            (click)="estadoSwap()" 
+            color="primary" 
+            class="large-button">
+            Entrada
+          </ion-button>
+  
+          <!-- Botón de Salida -->
+          <ion-button 
+            (click)="stop()" 
+            color="danger" 
+            class="large-button">
+            Salida
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  
+  
+  
+  

@@ -1,3 +1,55 @@
-ion-content {
-    --background: #EFEFEF;  /* Cambia el color de fondo de la página */
-}
+.custom-content {
+    --background: #EFEFEF; /* Fondo claro */
+    display: flex;
+    flex-direction: column;
+    justify-content: start; /* Alinea hacia arriba */
+    align-items: center;    /* Centra horizontalmente */
+    height: 100%;            /* Ocupa toda la altura */
+  }
+  
+  .centered-grid {
+    height: 50%; /* Ajusta según sea necesario */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .timer-text {
+    font-size: 3rem; /* Texto grande */
+    color: black;
+    margin-bottom: 10px;
+  }
+  
+  .large-icon {
+    font-size: 2.5rem;
+    margin: 10px;
+    color: black; /* Ajusta el color según el estado si lo deseas */
+  }
+  
+  .date-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 3px;
+    color: black;
+  }
+  
+  .button-row {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around; /* Espacio igual entre los botones */
+  }
+  
+  .button-custom {
+    font-size: 1.2rem;
+    width: 100%; /* Asegura que los botones llenen su columna */
+  }
+
+  .large-button {
+    font-size: 1.2rem;
+    margin: 10px;
+    width: 40%; /* Para hacer que los botones ocupen gran parte del ancho */
+  }
