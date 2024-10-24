@@ -51,16 +51,24 @@
         <div *ngIf="form.controls.fecha.errors?.['required']">La fecha es requerida</div>
       </div>
     
-      <!-- Input para subir archivo -->
-      <app-login-input
-        type="file"
-        label="Subir Archivo"
-        (change)="onFileSelected($event)"
-        [control]="form.controls.archivo">
-      </app-login-input>
+      <div class="form-group">
+        <label for="archivo">Archivo</label>
+      
+        <!-- Mostrar el archivo existente -->
+        <div *ngIf="form.controls.archivo.value">
+          <a [href]="form.controls.archivo.value" target="_blank">
+            Ver archivo existente
+          </a>
+        </div>
+      
+        <!-- Input para subir un nuevo archivo -->
+        <input type="file" (change)="onFileSelected($event)" />
+      </div>
+      
+      
    
       <ion-button class="submit" type="submit" mode="ios" fill="solid" color="primary" size="default" [disabled]="form.invalid">
-        Agregar Documento
+        {{ documento ? 'Actualizar Documento' : 'Agregar Documento' }}
         <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
       </ion-button>
     

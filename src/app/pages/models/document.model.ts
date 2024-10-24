@@ -1,9 +1,9 @@
 export interface Document {
     uidDoc: string;
     uidEmployee: string;
-    Descripcion: string;
+    descripcion: string;
     tipo: string;
     estado: string;
-    fechaVencimiento: Date;
+    fecha: Date;
     archivo: string;
 } 

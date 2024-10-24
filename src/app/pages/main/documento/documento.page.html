@@ -1,33 +1,53 @@
 <app-header [showMenu]="true" title="MotoWork"></app-header>
 
-<ion-content>
+<ion-content class="background">
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
     <h3 class="titulo">Mis Documentos</h3>
-    <ion-list class="background">
-        <ion-item-sliding class="product-item">
+
+    <ion-list class="background" *ngIf="!loading">
+        <ion-item-sliding class="product-item" *ngFor="let documento of documentos">
             <ion-item>
-                <ion-avatar slot="start">
-                    <img src="../../../../assets/img/pdf.png"/>
-                </ion-avatar>
                 <ion-label>
-                    <div class="data">Licencia Conducir</div>
                     <div>
-                        <strong class="data">Fecha vencimiento: 12/09/2025</strong>
+                        <strong class="data">Documento: {{ documento.descripcion }}</strong>
                     </div>
+                    <div class="data">Fecha Vencimiento: {{ documento.fecha }}</div>
+                    <div class="data">
+                        Estado: 
+                        <span [ngClass]="{
+                          'vigente': documento.estado === 'Vigente',
+                          'por-vencer': documento.estado === 'Por vencer',
+                          'vencido': documento.estado === 'Vencido'
+                        }">
+                          {{ documento.estado }}
+                        </span>
+                      </div>                      
                 </ion-label>
-                <ion-buttons>
-                    <ion-tab-button (click)="descargar()">
+                <ion-buttons slot="end">
+                    <!-- Botón para abrir el documento en una nueva pestaña -->
+                    <ion-button (click)="abrirDocumento(documento.archivo)">
+                        <ion-icon name="document-text-outline"></ion-icon>
+                        <ion-label>Abrir</ion-label>
+                    </ion-button>
+                    
+                    <!-- Botón para descargar el documento -->
+                    <ion-button (click)="descargarDocumento(documento.archivo)">
                         <ion-icon name="download"></ion-icon>
                         <ion-label>Descargar</ion-label>
-                    </ion-tab-button>
+                    </ion-button>
                 </ion-buttons>
             </ion-item>
 
             <ion-item-options side="end">
-                <ion-item-option color="success" (click)="update()">
+                <ion-item-option color="success" (click)="addUpdateDocument(documento)">
                     <ion-icon class="option-btn" name="create-outline"></ion-icon>
                 </ion-item-option>
 
-                <ion-item-option color="danger" (click)="delete()">
+                <ion-item-option color="danger" (click)="deleteDocument(documento)">
                     <ion-icon class="option-btn" name="trash-outline"></ion-icon>
                 </ion-item-option>
             </ion-item-options>
@@ -35,10 +55,35 @@
         </ion-item-sliding>
     </ion-list>
 
+    <ion-list class="background" *ngIf="loading">
+        <ion-item-sliding class="product-item" *ngFor="let documento of [1,1,1,1,1,1,1]">
+            <ion-item>
+                <ion-label>
+                    <div>
+                        <ion-skeleton-text animated style="width: 100%; height: 100%; color: black"></ion-skeleton-text>
+                    </div>
+                    <div class="data"><ion-skeleton-text animated style="width: 100%; height: 100%; color: black"></ion-skeleton-text></div>
+                    <div class="data">
+                        <ion-skeleton-text animated style="width: 50%; color:black"></ion-skeleton-text>
+                      </div>                      
+                </ion-label>
+                <ion-skeleton-text animated style="width: 50%; color: black"></ion-skeleton-text>
+            </ion-item>
+
+        </ion-item-sliding>
+    </ion-list>
+
+    <div class="empty" *ngIf="!loading && !documentos.length">
+        <ion-icon slot="start" name="diamond-outline"></ion-icon>
+        <h3>No hay documentos disponibles</h3>
+    </div>
+
     <ion-fab vertical="bottom" horizontal="center" slot="fixed">
         <ion-fab-button (click)="addUpdateDocument()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>
 
+
 </ion-content>
+

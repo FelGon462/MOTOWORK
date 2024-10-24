@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, sendPasswordResetEmail } from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { User } from '../pages/models/user.model';
 import { addDoc, collection, deleteDoc, doc, getDoc, getFirestore, setDoc, updateDoc } from '@angular/fire/firestore'
 import { UtilsService } from './utils.service';
-import { ref, getStorage, uploadString, getDownloadURL, deleteObject } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL, uploadString, deleteObject } from 'firebase/storage'; // Asegúrate de tener estas importaciones
+import { Document } from '../pages/models/document.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class FirebaseService {
   auth = inject(AngularFireAuth);
   firestore = inject(AngularFirestore);
   UtilsService = inject(UtilsService);
+  dataRef: AngularFirestoreCollection<Document>;
   
   getAuth(){
     return getAuth();
@@ -33,6 +35,10 @@ export class FirebaseService {
     return updateProfile(getAuth().currentUser, {displayName});
   }
 
+  createId(): string {
+    return this.firestore.createId(); // Genera un ID único
+  }
+  
   setDcument(path: any, data: any){
     return setDoc(doc(getFirestore(), path), data);
   }
@@ -51,9 +57,18 @@ export class FirebaseService {
     this.UtilsService.routerlink('/auth');
   }
 
-  addDocument(path: any, data: any){ // 'users/id/document0s'
-    return addDoc(collection(getFirestore(), path), data); //add guarda los datos
+  async addDocument(collectionPath: string, data: any, docId?: string) {
+    const collectionRef = this.firestore.collection(collectionPath);
+    
+    if (docId) {
+      // Si hay un UID proporcionado, lo usamos como ID del documento
+      return collectionRef.doc(docId).set(data);
+    } else {
+      // Si no hay UID, Firestore genera uno automáticamente
+      return collectionRef.add(data);
+    }
   }
+  
 
   async updateImg(path: any, data_url: any){
     return uploadString(ref(getStorage(), path),data_url, 'data_url')
@@ -70,6 +85,23 @@ export class FirebaseService {
   //Para actualizar informacion de un documento
   updateDocument(path: any, data: any){
     return updateDoc(doc(getFirestore(), path), data);
+  }
+
+  //Para eliminar un documento
+  deleteDocument(path: any){
+    return deleteDoc(doc(getFirestore(), path));
+  }
+
+  //Para eliminar un archivo de firebase storage
+  deleteFile(path: any){
+    return deleteObject(ref(getStorage(), path));
+  }
+
+
+
+  getCollectionData(path: any): AngularFirestoreCollection<Document>{
+    this.dataRef = this.firestore.collection(path, ref => ref.orderBy('fecha', 'desc'));
+    return this.dataRef;
   }
 
 }
