@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
+import { AlertController, AlertOptions, LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Injectable({
@@ -11,10 +11,19 @@ export class UtilsService {
   toastCtrl = inject(ToastController);
   loadingCtrl = inject(LoadingController);
   modalCtrl = inject(ModalController);
+  alertCtrl = inject(AlertController);
 
   loading(){
     return this.loadingCtrl.create({ spinner: 'crescent'})
   }
+
+  async updateLoadingMessage(message: string) {
+    const loading = await this.loadingCtrl.getTop();
+    if (loading) {
+      loading.message = message;
+    }
+  }
+  
 
   routerlink(url: any){
     this.router.navigateByUrl(url)
@@ -61,5 +70,10 @@ export class UtilsService {
     });
 
   };
+
+  async presentAlert(opts?: AlertOptions){
+    const alert = await this.alertCtrl.create(opts);
+    await alert.present();
+  }
 
 }

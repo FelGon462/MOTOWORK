@@ -53,3 +53,35 @@
     margin: 10px;
     width: 40%; /* Para hacer que los botones ocupen gran parte del ancho */
   }
+
+  .imagen {
+    justify-content: center;  /* Centrar horizontalmente */
+    align-items: center;      /* Centrar verticalmente */
+    width: 30%;
+    margin: auto;
+  }
+
+  .photo-btn-container {
+    display: flex;
+    justify-content: center;  /* Centrar horizontalmente */
+    align-items: center;      /* Centrar verticalmente */
+    width: 30%;
+    margin: auto;
+  }
+  
+  .photo-btn {
+    
+    margin-top: 35px;
+    bottom: 25px;
+  }
+
+  .submit-btn-container {
+    display: flex;
+    justify-content: center;  /* Centrar horizontalmente */
+    align-items: center;      /* Centrar verticalmente */
+    width: 30%;
+    margin-top: 25px;
+    margin: auto;
+  }
+
+  

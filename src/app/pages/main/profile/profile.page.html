@@ -2,11 +2,11 @@
 <ion-content class="ion-padding-top ion-text-center">
   <ion-avatar>
     <img *ngIf="user().img" [src]="user().img" alt="">
-  <ion-icon style="color:black" *ngIf="!user().img" class="empty-icon" name="person-circle-outline"></ion-icon>
-</ion-avatar>  
-<ion-button class="photo-btn" (click)="takeImage()" mode="ios" size="small" shape="round">
+    <ion-icon style="color:black" *ngIf="!user().img" class="empty-icon" name="person-circle-outline"></ion-icon>
+  </ion-avatar>  
+  <ion-button class="photo-btn" (click)="takeImage()" mode="ios" size="small" shape="round">
     <ion-icon name="camera-outline"></ion-icon>
-</ion-button>
+  </ion-button>
 
   <h4 style="color: black">{{ user().name }}</h4>
   <div style="color: black">{{ user().email }}</div>

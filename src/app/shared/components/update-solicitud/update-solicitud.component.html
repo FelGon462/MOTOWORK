@@ -1,0 +1,95 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="new-background-color">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModal()">
+        <ion-icon style="color: red;" name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> {{title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <br>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form" (keypress.enter)="submit()">
+
+    <app-logo></app-logo>
+  
+    <app-login-input
+      autocomplete="descripcion"
+      type="text"
+      label="Descripción"
+      icon="document-text-outline"
+      [control]="form.controls.descripcion">
+    </app-login-input>
+  
+    <div class="validators" *ngIf="form.controls.descripcion.errors && form.controls.descripcion.touched">
+      <div *ngIf="form.controls.descripcion.errors?.['required']">La descripción del documento es requerida</div>
+      <div *ngIf="form.controls.descripcion.errors?.['minLength']">Debe tener al menos 6 caracteres</div>
+    </div>
+  
+    <app-login-input
+      type="date"
+      label="Fecha Inicio"
+      icon="calendar-outline"
+      [control]="form.controls.fechaInicio">
+    </app-login-input>
+  
+    <div class="validators" *ngIf="form.controls.fechaInicio.errors && form.controls.fechaInicio.touched">
+      <div *ngIf="form.controls.fechaInicio.errors?.['required']">La fecha es requerida</div>
+    </div>
+  
+    <app-login-input
+      type="date"
+      label="Fecha Fin"
+      icon="calendar-outline"
+      [control]="form.controls.fechaFin">
+    </app-login-input>
+  
+    <div class="validators" *ngIf="form.controls.fechaFin.errors && form.controls.fechaFin.touched">
+      <div *ngIf="form.controls.fechaFin.errors?.['required']">La fecha es requerida</div>
+    </div>
+
+    <app-login-input
+      autocomplete="tramo"
+      type="text"
+      label="Tramo"
+      icon="document-text-outline"
+      [control]="form.controls.tramo">
+    </app-login-input>
+  
+    <div class="validators" *ngIf="form.controls.tramo.errors && form.controls.tramo.touched">
+      <div *ngIf="form.controls.tramo.errors?.['required']">Debe indicar si es jornada completa o medio dia</div>
+      <div *ngIf="form.controls.tramo.errors?.['minLength']">Debe tener al menos 6 caracteres</div>
+    </div>
+  
+    <div class="form-group">
+      <label for="archivo">Archivo</label>
+    
+      <!-- Mostrar el archivo existente -->
+      <div *ngIf="form.controls.archivo.value">
+        <a [href]="form.controls.archivo.value" target="_blank">
+          Ver archivo existente
+        </a>
+      </div>
+    
+      <!-- Input para subir un nuevo archivo -->
+      <input type="file" (change)="onFileSelected($event)" />
+    </div>
+    
+    
+ 
+    <ion-button class="submit" type="submit" mode="ios" fill="solid" color="primary" size="default" [disabled]="form.invalid">
+      {{ solicitud ? 'Actualizar Solicitud' : 'Agregar Solicitud' }}
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+    </ion-button>
+  
+  </form>
+
+  <ion-progress-bar 
+  *ngIf="uploadInProgress" 
+  [value]="uploadProgress / 100" 
+  color="primary">
+  </ion-progress-bar>
+
+</ion-content>

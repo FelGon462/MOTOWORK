@@ -69,7 +69,6 @@ export class FirebaseService {
     }
   }
   
-
   async updateImg(path: any, data_url: any){
     return uploadString(ref(getStorage(), path),data_url, 'data_url')
     .then(() => {

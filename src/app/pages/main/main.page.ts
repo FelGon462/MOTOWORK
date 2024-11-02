@@ -16,6 +16,7 @@ export class MainPage implements OnInit {
   firebaseService = inject(FirebaseService);
   utilsService = inject(UtilsService);
   currentPath: string = '';
+  tittle: string = '';
 
   pages = [
     {
@@ -40,6 +41,11 @@ export class MainPage implements OnInit {
       title: 'Mi Info',
       url: '/main/profile',
       icon: 'person'
+    },
+    {
+      title: 'Solicitudes',
+      url: '/main/solicitudes',
+      icon: 'chatbubbles-outline'
     },
     {
       title: 'Resumen Mensual',

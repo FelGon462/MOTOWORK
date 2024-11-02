@@ -1,37 +1,40 @@
-import { Component, inject, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Solicitud } from 'src/app/pages/models/solicitudes.model';
 import { User } from 'src/app/pages/models/user.model';
-import { Document } from 'src/app/pages/models/document.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';  // Ajuste: usando uploadBytesResumable
 
 @Component({
-  selector: 'app-update-document',
-  templateUrl: './update-document.component.html',
-  styleUrls: ['./update-document.component.scss'],
+  selector: 'app-update-solicitud',
+  templateUrl: './update-solicitud.component.html',
+  styleUrls: ['./update-solicitud.component.scss'],
 })
-export class UpdateDocumentComponent implements OnInit {
+export class UpdateSolicitudComponent  implements OnInit {
 
-  @Input() documento: Document;
+  user = {} as User;
 
   utilsService = inject(UtilsService);
   firebaseService = inject(FirebaseService);
   changeDetector = inject(ChangeDetectorRef);
 
   @Input() title: string;
+  @Input() solicitud: Solicitud;
+
   uploadInProgress: boolean = false;
   selectedFile: File | null = null;
-  user = {} as User;
   uploadProgress: number = 0;  // Progreso de la subida
 
   form = new FormGroup({
-    uidDoc: new FormControl(''),
+    uidSolicitud: new FormControl(''),
     uidEmployee: new FormControl('', Validators.required),
     descripcion: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    tipo: new FormControl('', [Validators.required]),
+    fechaInicio: new FormControl(new Date(), [Validators.required]),
+    fechaFin: new FormControl(new Date(), [Validators.required]),
+    tramo: new FormControl(''),
     estado: new FormControl(''),
-    fecha: new FormControl(new Date(), [Validators.required]),
+    fechaSolicitud: new FormControl(new Date(), [Validators.required]),
     archivo: new FormControl(''), // Guardar la URL del archivo
   });
 
@@ -39,10 +42,10 @@ export class UpdateDocumentComponent implements OnInit {
     const user = this.utilsService.getLocalStorage('user');
     this.user = user;
     this.form.controls.uidEmployee.setValue(user.uid);
-    if (this.documento) {
-      this.form.patchValue(this.documento);
-      if (this.documento.archivo) {
-        this.form.controls.archivo.setValue(this.documento.archivo);
+    if (this.solicitud) {
+      this.form.patchValue(this.solicitud);
+      if (this.solicitud.archivo) {
+        this.form.controls.archivo.setValue(this.solicitud.archivo);
       }
     }
   }
@@ -58,7 +61,7 @@ export class UpdateDocumentComponent implements OnInit {
   // Subir archivo con seguimiento del progreso
   async uploadDocument(uid: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      const archivoPath = `users/${uid}/documents/${Date.now()}_${this.selectedFile.name}`;
+      const archivoPath = `users/${uid}/solicitudes/${Date.now()}_${this.selectedFile.name}`;
       const archivoRef = ref(getStorage(), archivoPath);
       const uploadTask = uploadBytesResumable(archivoRef, this.selectedFile);
       this.uploadInProgress = true; // Mostrar barra de progreso
@@ -89,10 +92,10 @@ export class UpdateDocumentComponent implements OnInit {
   // Enviar el formulario
   async submit() {
     if(this.form.valid) {
-      if(this.documento) {
+      if(this.solicitud) {
         this.updateDocument();
       } else {
-        this.calculateEstado(); // Calculamos el estado del documento
+        this.form.controls.estado.setValue('solicitado');
   
         let archivoUrl = this.form.controls.archivo.value; // URL del archivo actual
   
@@ -111,7 +114,7 @@ export class UpdateDocumentComponent implements OnInit {
 
   async updateDocument() {
     console.log('Listo para actualizar');
-    const path = `users/${this.user.uid}/documents/${this.documento.uidDoc}`; // Ruta del documento
+    const path = `users/${this.user.uid}/solicitudes/${this.solicitud.uidSolicitud}`; // Ruta del documento
   
     const loading = await this.utilsService.loading();
     await loading.present();
@@ -120,14 +123,14 @@ export class UpdateDocumentComponent implements OnInit {
       // Si el archivo ha cambiado, subimos el nuevo archivo
       if (this.selectedFile) {
         const dataUrl = await this.fileToDataUrl(this.selectedFile); // Convertimos archivo a dataURL
-        const archivoPath = `users/${this.user.uid}/documents/${Date.now()}_${this.selectedFile.name}`; // Nueva ruta
+        const archivoPath = `users/${this.user.uid}/solicitudes/${Date.now()}_${this.selectedFile.name}`; // Nueva ruta
         const archivoUrl = await this.firebaseService.updateImg(archivoPath, dataUrl); // Subimos el archivo
   
         this.form.controls.archivo.setValue(archivoUrl); // Actualizamos la URL del archivo
       }
   
       // Creamos la estructura del documento que se va a actualizar
-      const docData = { ...this.form.value, uidDoc: this.documento.uidDoc };
+      const docData = { ...this.form.value, uidDoc: this.solicitud.uidSolicitud };
   
       // Actualizamos el documento en Firestore
       await this.firebaseService.updateDocument(path, docData);
@@ -135,7 +138,7 @@ export class UpdateDocumentComponent implements OnInit {
       // Notificación de éxito
       this.utilsService.dismissModal({ success: true });
       this.utilsService.presentToast({
-        message: 'Documento actualizado correctamente',
+        message: 'Solicitud actualizada correctamente',
         duration: 2000,
         color: 'success',
         position: 'bottom',
@@ -149,7 +152,7 @@ export class UpdateDocumentComponent implements OnInit {
     } catch (error) {
       console.error('Error al actualizar documento:', error);
       this.utilsService.presentToast({
-        message: 'Error al actualizar el documento',
+        message: 'Error al actualizar la solicitud',
         duration: 2000,
         color: 'danger',
         position: 'bottom',
@@ -170,25 +173,9 @@ export class UpdateDocumentComponent implements OnInit {
     });
   }
 
-  // Calcular el estado del documento según la fecha de vencimiento
-  calculateEstado(): void {
-    const fechaVencimiento = new Date(this.form.controls.fecha.value);
-    const hoy = new Date();
-    const diferenciaDias = Math.ceil((fechaVencimiento.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24));
-
-    let estado = 'Vigente';
-    if (diferenciaDias < 0) {
-      estado = 'Vencido';
-    } else if (diferenciaDias < 60) {
-      estado = 'Por vencer';
-    }
-
-    this.form.controls.estado.setValue(estado); // Actualizamos el estado
-  }
-
   // Crear documento en Firestore
   async createDocument() {
-    const path = `users/${this.user.uid}/documents`;
+    const path = `users/${this.user.uid}/solicitudes`;
 
     const loading = await this.utilsService.loading();
     await loading.present();
@@ -204,14 +191,14 @@ export class UpdateDocumentComponent implements OnInit {
       }
       
       const uidDoc = this.firebaseService.createId();
-      this.form.controls.uidDoc.setValue(uidDoc);
+      this.form.controls.uidSolicitud.setValue(uidDoc);
 
       const docData = { ...this.form.value, uidDoc };
       await this.firebaseService.setDcument(`${path}/${uidDoc}`, docData);
 
       this.utilsService.dismissModal({ success: true });
       this.utilsService.presentToast({
-        message: 'Documento creado correctamente',
+        message: 'Solicitud creada correctamente',
         duration: 2000,
         color: 'success',
         position: 'bottom',
@@ -224,7 +211,7 @@ export class UpdateDocumentComponent implements OnInit {
     } catch (error) {
       console.error('Error al crear documento:', error);
       this.utilsService.presentToast({
-        message: 'Error al crear el documento',
+        message: 'Error al crear la solicitud',
         duration: 2000,
         color: 'danger',
         position: 'bottom',
@@ -242,6 +229,5 @@ export class UpdateDocumentComponent implements OnInit {
   dismissModal() {
     this.utilsService.dismissModal();
   }
+
 }
-
-

@@ -7,6 +7,7 @@ import { UpdateEmployeeComponent } from './components/update-employee/update-emp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { UpdateDocumentComponent } from './components/update-document/update-document.component';
+import { UpdateSolicitudComponent } from './components/update-solicitud/update-solicitud.component';
 
 
 
@@ -16,7 +17,8 @@ import { UpdateDocumentComponent } from './components/update-document/update-doc
     LoginInputComponent,
     LogoComponent,
     UpdateEmployeeComponent,
-    UpdateDocumentComponent
+    UpdateDocumentComponent,
+    UpdateSolicitudComponent
   ],
   exports: [
     HeaderComponent,

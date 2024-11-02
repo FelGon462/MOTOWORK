@@ -31,6 +31,10 @@ const routes: Routes = [
         loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
       },
       {
+        path: 'solicitudes',
+        loadChildren: () => import('./solicitudes/solicitudes.module').then( m => m.SolicitudesPageModule)
+      },
+      {
         path: 'resumen-mensual',
         loadChildren: () => import('./resumen-mensual/resumen-mensual.module').then( m => m.ResumenMensualPageModule)
       },
@@ -46,7 +50,6 @@ const routes: Routes = [
     redirectTo: '/main/dashboard',
     pathMatch: 'full'
   },
-  
 
 ];
 

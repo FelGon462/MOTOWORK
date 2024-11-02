@@ -1,31 +1,60 @@
 <ion-content class="custom-content">
-    <ion-grid class="centered-grid">
-      <ion-row>
-        <ion-col class="text-center">
-          <p class="date-text">{{ currentDate }}</p>
-          <p class="timer-text">
-            {{ _minutos }}:{{ _segundos }}
-          </p>
-  
-          <!-- Botón de Entrada -->
-          <ion-button 
-            (click)="estadoSwap()" 
-            color="primary" 
-            class="large-button">
-            Entrada
-          </ion-button>
-  
-          <!-- Botón de Salida -->
-          <ion-button 
-            (click)="stop()" 
-            color="danger" 
-            class="large-button">
-            Salida
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-content>
+  <ion-grid class="centered-grid">
+    <ion-row>
+      <ion-col class="text-center">
+        <p class="date-text">{{ currentDate }}</p>
+        
+        <!-- Mostrar horas y minutos si ya se registró la entrada -->
+        <p class="timer-text">
+          {{ isRun ? _horas : _minutos }}:{{ _minutos }}:{{ _segundos }}
+        </p>
+
+        <ion-button 
+        (click)="registrarEntrada()" 
+        color="primary" 
+        class="large-button"
+        [attr.inert]="isRun ? '' : null">
+        Entrada
+        </ion-button>
+
+        <ion-button 
+        (click)="registrarSalida()" 
+        color="danger" 
+        class="large-button"
+        [attr.inert]="!isRun ? '' : null">
+        Salida
+        </ion-button>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-login-input
+    autocomplete="descripcion"
+    type="text"
+    label="Descripción"
+    icon="info-outline"
+    [control]="form.controls.descripcion">
+  ></app-login-input>
+
+  <div class="imagen" *ngIf="form.value.img">
+    <img [src]="form.value.img" alt="">
+  </div>
+  <div class="imagen" *ngIf="!form.value.img">
+    <ion-icon class="photo-btn-container" style="color:black" name="image-outline"></ion-icon>
+  </div>
+
+  <ion-button class="photo-btn-container" (click)="takeImage()" mode="ios" size="small" shape="round">
+    <ion-icon name="camera-outline"></ion-icon>
+
+  </ion-button>
+
+  <ion-button class="submit-btn-container" style="margin-top: 35px;" type="submit" (click)="submit()" mode="ios" fill="solid" color="primary" size="default" [disabled]="form.invalid">
+    Guardar registro
+    <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+  </ion-button>
+</ion-content>
+
   
   
   

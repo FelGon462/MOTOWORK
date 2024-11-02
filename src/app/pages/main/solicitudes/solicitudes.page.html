@@ -1,0 +1,41 @@
+<app-header backButton="/main/dashboard" [showMenu]="true" title="Solicitudes"></app-header>
+<ion-content class="background">
+  <h3 class="titulo">Mis Solicitudes</h3>
+  <ion-list>
+    <ion-item-sliding class="product-item">
+        <ion-item>
+            <ion-label>
+                <div>
+                    <strong class="data">Descripcion: Solicitud de Vacaciones</strong>
+                </div>
+                <div class="data">Fechas: 15 de Diciembre hasta el 22 de Diciembre (Ambas fechas inclusive)</div>
+                <div class="data">
+                    Estado: 
+                    <span>
+                      Solicitado
+                    </span>
+                  </div>                      
+            </ion-label>
+
+        </ion-item>
+
+        <ion-item-options side="end">
+            <ion-item-option color="success" (click)="addUpdateDocument()">
+                <ion-icon class="option-btn" name="create-outline"></ion-icon>
+            </ion-item-option>
+
+            <ion-item-option color="danger" (click)="confirmDeleteDocument()">
+                <ion-icon class="option-btn" name="trash-outline"></ion-icon>
+            </ion-item-option>
+        </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="addUpdateDocument()">
+        <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

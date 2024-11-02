@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TurnoPageRoutingModule } from './turno-routing.module';
+import { SolicitudesPageRoutingModule } from './solicitudes-routing.module';
 
-import { TurnoPage } from './turno.page';
+import { SolicitudesPage } from './solicitudes.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    TurnoPageRoutingModule,
+    SolicitudesPageRoutingModule,
     SharedModule
   ],
-  declarations: [TurnoPage]
+  declarations: [SolicitudesPage]
 })
-export class TurnoPageModule {}
+export class SolicitudesPageModule {}

@@ -79,8 +79,7 @@ export class DocumentoPage implements OnInit {
   }
 
   async deleteDocument(documento: any) {
-    console.log('Listo para eliminar');
-    
+  
     const firestorePath = `users/${this.user().uid}/documents/${documento.uidDoc}`; // Ruta en Firestore
     const archivoUrl = documento.archivo; // URL del archivo en Storage
   
@@ -124,6 +123,26 @@ export class DocumentoPage implements OnInit {
     } finally {
       loading.dismiss(); // Cerrar el indicador de carga
     }
+  }
+
+  async confirmDeleteDocument(documento: Document) {
+    this.utilsService.presentAlert({
+      header: 'Eliminar Documento',
+      message: '¿Estás seguro de que deseas eliminar este documento?',
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Eliminar',
+          cssClass: 'danger',
+          handler: () => this.deleteDocument(documento),
+        },  
+      ],
+    })  
   }
 
   doRefresh(event: any){
