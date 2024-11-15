@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "989320648274",
+    "project_id": "motowork-d4740",
+    "storage_bucket": "motowork-d4740.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989320648274:android:cba9b5602b95111086318b",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB556rGFzTkln_zymnlH1zzW-4mOc6awIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

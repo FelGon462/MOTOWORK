@@ -34,10 +34,10 @@ const routes: Routes = [
         path: 'solicitudes',
         loadChildren: () => import('./solicitudes/solicitudes.module').then( m => m.SolicitudesPageModule)
       },
-      {
-        path: 'resumen-mensual',
-        loadChildren: () => import('./resumen-mensual/resumen-mensual.module').then( m => m.ResumenMensualPageModule)
-      },
+      // {
+      //   path: 'resumen-mensual',
+      //   loadChildren: () => import('./resumen-mensual/resumen-mensual.module').then( m => m.ResumenMensualPageModule)
+      // },
       {
         path: '',
         redirectTo: '/main/dashboard',

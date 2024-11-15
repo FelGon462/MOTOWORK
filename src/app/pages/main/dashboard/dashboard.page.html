@@ -1,4 +1,46 @@
 <app-header [showMenu]="true" title="MotoWork"></app-header>
 
-<ion-content>
+<ion-content *ngIf="!loading; else loadingTemplate">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="4">
+        <ion-card>
+            <ion-card-header>
+              <ion-card-title>Estadísticas de Documentos</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>Documentos vencidos: {{ vencidoCount }}</p>
+              <p>Documentos por vencer: {{ porVencerCount }}</p>
+            </ion-card-content>
+          </ion-card>
+      </ion-col>
+      
+      <ion-col size="12" size-md="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Solicitudes</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Total: {{ solicitudCount }}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" size-md="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Turnos Cumplidos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Total: {{ turnoCount }}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ng-template #loadingTemplate>
+  <ion-spinner name="crescent"></ion-spinner>
+</ng-template>
+

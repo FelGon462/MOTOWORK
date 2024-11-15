@@ -1,18 +1,26 @@
 <app-header backButton="/main/dashboard" [showMenu]="true" title="Solicitudes"></app-header>
 <ion-content class="background">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <h3 class="titulo">Mis Solicitudes</h3>
-  <ion-list>
-    <ion-item-sliding class="product-item">
+
+  <ion-list class="background" *ngIf="!loading">
+    <ion-item-sliding class="product-item" *ngFor="let solicitud of solicitudes">
         <ion-item>
             <ion-label>
                 <div>
-                    <strong class="data">Descripcion: Solicitud de Vacaciones</strong>
+                    <strong class="data">Descripcion:  {{ solicitud.descripcion }}</strong>
                 </div>
-                <div class="data">Fechas: 15 de Diciembre hasta el 22 de Diciembre (Ambas fechas inclusive)</div>
+                <div class="data">Fecha inicio: {{ solicitud.fechaInicio }}</div>
+                <div class="data">Fecha Termino: {{ solicitud.fechaFin }}</div>
+                <div class="data">Tramo: {{ solicitud.tramo }}</div>
                 <div class="data">
                     Estado: 
                     <span>
-                      Solicitado
+                      {{ solicitud.estado }}
                     </span>
                   </div>                      
             </ion-label>
@@ -20,17 +28,40 @@
         </ion-item>
 
         <ion-item-options side="end">
-            <ion-item-option color="success" (click)="addUpdateDocument()">
+            <ion-item-option color="success" (click)="addUpdateDocument(solicitud)">
                 <ion-icon class="option-btn" name="create-outline"></ion-icon>
             </ion-item-option>
 
-            <ion-item-option color="danger" (click)="confirmDeleteDocument()">
+            <ion-item-option color="danger" (click)="confirmDeleteDocument(solicitud)">
                 <ion-icon class="option-btn" name="trash-outline"></ion-icon>
             </ion-item-option>
         </ion-item-options>
 
     </ion-item-sliding>
   </ion-list>
+
+  <ion-list class="background" *ngIf="loading">
+    <ion-item-sliding class="product-item" *ngFor="let documento of [1,1,1,1,1,1,1]">
+        <ion-item>
+            <ion-label>
+                <div>
+                    <ion-skeleton-text animated style="width: 100%; height: 100%; color: black"></ion-skeleton-text>
+                </div>
+                <div class="data"><ion-skeleton-text animated style="width: 100%; height: 100%; color: black"></ion-skeleton-text></div>
+                <div class="data">
+                    <ion-skeleton-text animated style="width: 50%; color:black"></ion-skeleton-text>
+                  </div>                      
+            </ion-label>
+            <ion-skeleton-text animated style="width: 50%; color: black"></ion-skeleton-text>
+        </ion-item>
+
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="empty" *ngIf="!loading && !solicitudes.length">
+    <ion-icon slot="start" name="diamond-outline"></ion-icon>
+    <h3>No hay documentos disponibles</h3>
+  </div>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="addUpdateDocument()">

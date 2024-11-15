@@ -47,11 +47,11 @@ export class MainPage implements OnInit {
       url: '/main/solicitudes',
       icon: 'chatbubbles-outline'
     },
-    {
-      title: 'Resumen Mensual',
-      url: '/main/resumen-mensual',
-      icon: 'calendar'
-    }
+    // {
+    //   title: 'Resumen Mensual',
+    //   url: '/main/resumen-mensual',
+    //   icon: 'calendar'
+    // }
   ];
 
   ngOnInit() {

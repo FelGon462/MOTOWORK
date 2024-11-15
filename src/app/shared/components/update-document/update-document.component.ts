@@ -90,6 +90,7 @@ export class UpdateDocumentComponent implements OnInit {
   async submit() {
     if(this.form.valid) {
       if(this.documento) {
+        this.calculateEstado(); // Calculamos el estado del documento
         this.updateDocument();
       } else {
         this.calculateEstado(); // Calculamos el estado del documento
@@ -115,7 +116,7 @@ export class UpdateDocumentComponent implements OnInit {
   
     const loading = await this.utilsService.loading();
     await loading.present();
-  
+    this.calculateEstado(); // Calculamos el estado del documento
     try {
       // Si el archivo ha cambiado, subimos el nuevo archivo
       if (this.selectedFile) {

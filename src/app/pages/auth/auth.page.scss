@@ -3,3 +3,12 @@ ion-content.background{
     --background: url(../../../assets/img/fondo.jpg) 0 0/100% 100% no-repeat;
   
   }
+
+
+.highlight-text {
+  font-weight: bold;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
